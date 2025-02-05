@@ -5,7 +5,9 @@ import com.example.death_race.death_event.PlayerDeathCallback;
 import com.example.death_race.death_event.ModDamageSources;
 import com.example.death_race.commands.StartGameCommand;
 
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.server.command.CommandManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.slf4j.Logger;
@@ -41,7 +43,6 @@ public class DeathRace implements ModInitializer {
 		});
 
 		StartGameCommand.register();
-
 //			System.out.println(source.toString());
 //			System.out.println(ModDamageSources.FALL.toString());
 //			System.out.println(Objects.equals(source.toString(), ModDamageSources.FALL.toString()));

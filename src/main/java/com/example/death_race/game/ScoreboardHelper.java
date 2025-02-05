@@ -3,6 +3,7 @@ package com.example.death_race.game;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.ScoreboardObjective;
+//import net.minecraft.scoreboard.
 
 public class ScoreboardHelper {
     public static void setPlayerScore(ServerPlayerEntity player, String objectiveName, int score) {
