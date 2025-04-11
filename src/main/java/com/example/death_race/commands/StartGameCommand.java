@@ -42,32 +42,39 @@ public class StartGameCommand {
 
     public static int startGame(ServerCommandSource _source) {
         // 给所有玩家发送消息
-        _source.getServer().getPlayerManager().broadcast(Text.of("游戏开始了！"), false);
+        _source.getServer().getPlayerManager().broadcast(Text.of("游戏开始！"), false);
         if(isStarted) return 0;
         isStarted = true;
 
 //        ArrayList<String> gotDeath = new ArrayList<>();
 
         PlayerDeathCallback.EVENT.register((player, source) -> {
-                System.out.println("玩家 " + player.getName().getString() + " 死亡，原因：" + source.getName());
+            System.out.println("玩家 " + player.getName().getString() + " 死亡，原因：" + source.getName());
 //			System.out.println(source.getDeathMessage(player).getString());
 
-                String deathMessage = source.getDeathMessage(player).getString();
-                deathMessage = deathMessage.replaceFirst("^" + player.getName().getString(), "").trim();
+            String deathMessage = source.getDeathMessage(player).getString();
+            deathMessage = deathMessage.replaceFirst("^" + player.getName().getString(), "").trim();
 
-                Team team = player.getScoreboardTeam();
-                MinecraftServer server = player.getServer();
-                assert server != null;
+            Team team = player.getScoreboardTeam();
+            MinecraftServer server = player.getServer();
+            assert server != null;
 
-                if (gotDeath.contains((deathMessage))) {
-                    server.getPlayerManager().broadcast(Text.literal(player.getName().getString() + " 死于老一套：" + deathMessage + "！").formatted(Formatting.BLUE), false);
-                } else {
-                    gotDeath.add(deathMessage);
-                    server.getPlayerManager().broadcast(Text.literal(player.getName().getString() + " 死于新花样：" + deathMessage + "！").formatted(Formatting.GREEN), false);
+            // 独占模式
+//            if (gotDeath.contains((deathMessage))) {
+//                server.getPlayerManager().broadcast(Text.literal(player.getName().getString() + " 死于老一套：" + deathMessage + "！").formatted(Formatting.BLUE), false);
+//            } else {
+//                gotDeath.add(deathMessage);
+//                server.getPlayerManager().broadcast(Text.literal(player.getName().getString() + " 死于新花样：" + deathMessage + "！").formatted(Formatting.GREEN), false);
+////                    Scoreboard playerScoreboard = player.getScoreboard();
+//                ScoreboardHelper.addPlayerScore(player, "score");
+//            }
+
+            // 非独占模式
+            server.getPlayerManager().broadcast(Text.literal(player.getName().getString() + " 死于：" + deathMessage + "！").formatted(Formatting.GREEN), false);
 //                    Scoreboard playerScoreboard = player.getScoreboard();
-                    ScoreboardHelper.addPlayerScore(player, "score");
-                }
-            });
+            ScoreboardHelper.addPlayerScore(player, "score");
+
+        });
 
         // 返回 1 表示命令成功执行
         return Command.SINGLE_SUCCESS;
